@@ -13,6 +13,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Colors from './themes/colors';
 import Login from './views/login';
+import Register from './views/register';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,6 +37,11 @@ const App: React.FC = () => {
           name="Login"
           options={{title: 'Login', headerShown: false}}
           component={Login}
+        />
+        <Stack.Screen
+          name="Register"
+          options={{title: 'Register'}}
+          component={Register}
         />
       </Stack.Navigator>
     </NavigationContainer>
