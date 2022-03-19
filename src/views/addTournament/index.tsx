@@ -3,15 +3,12 @@ import React, {useState} from 'react';
 import {Image, Platform, Pressable, SafeAreaView, View} from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import {Input, Button as ButtonElement, Text} from 'react-native-elements';
-//@ts-ignore lib issue
 import Spinner from 'react-native-loading-spinner-overlay';
 import DatePicker from 'react-native-date-picker';
 import DocumentPicker from 'react-native-document-picker';
 import RNFS from 'react-native-fs';
 
 import Colors from '../../themes/colors';
-import {resolvePreset} from '@babel/core';
-
 interface Props {
   navigation: any;
 }
@@ -80,7 +77,7 @@ const AddTournament = (props: Props) => {
         placeholder="Name"
         defaultValue={name}
         label={'Name'}
-        leftIcon={<MDIcon size={24} color={Colors.softBlack} name={'person'} />}
+        leftIcon={<MDIcon size={24} color={Colors.softBlack} name={'event'} />}
         onChangeText={value => setName(value)}
         autoCompleteType={'username'}
       />
@@ -89,7 +86,7 @@ const AddTournament = (props: Props) => {
         placeholder="Country"
         defaultValue={country}
         label={'Country'}
-        leftIcon={<MDIcon size={24} color={Colors.softBlack} name={'person'} />}
+        leftIcon={<MDIcon size={24} color={Colors.softBlack} name={'flag'} />}
         onChangeText={value => setCountry(value)}
         autoCompleteType={'country'}
       />
@@ -98,7 +95,9 @@ const AddTournament = (props: Props) => {
         placeholder="City"
         defaultValue={city}
         label={'City'}
-        leftIcon={<MDIcon size={24} color={Colors.softBlack} name={'person'} />}
+        leftIcon={
+          <MDIcon size={24} color={Colors.softBlack} name={'location-city'} />
+        }
         onChangeText={value => setCity(value)}
         autoCompleteType={'city'}
       />

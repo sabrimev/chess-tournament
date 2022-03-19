@@ -1,12 +1,14 @@
 import styles from './useStyles';
 import React, {useState} from 'react';
-import {SafeAreaView, View} from 'react-native';
+import {Alert, SafeAreaView, View} from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import {Input, Button as ButtonElement} from 'react-native-elements';
-//@ts-ignore lib issue
 import Spinner from 'react-native-loading-spinner-overlay';
+import * as Constants from '../../utils/constants';
 
 import Colors from '../../themes/colors';
+import * as DBService from '../../utils/dbService';
+import {User} from '../../utils/types';
 
 interface Props {
   navigation: any;
@@ -22,13 +24,43 @@ const Register = (props: Props) => {
   const [passAgain, setPassAgain] = useState<string>('');
   const [isLoading, setIsloading] = useState<boolean>(false);
 
-  const registerUser = () => {
+  const registerUser = async () => {
     setIsloading(true);
-    setTimeout(() => {
-      setIsloading(false);
-      console.log('lann: ' + JSON.stringify(isLoading));
-      navigation.navigate('Login');
-    }, 2000);
+
+    const user: User = {
+      id: Date.now(),
+      name: name,
+      surname: surname,
+      email: email,
+      password: pass,
+    };
+
+    const db = await DBService.getDBConnection();
+    await DBService.createUsersTable(db);
+
+    await DBService.addUser(db, user);
+
+    const storedUsers = await DBService.getAllUsers(db);
+    console.log(JSON.stringify(storedUsers));
+
+    setIsloading(false);
+
+    registrationComplete();
+  };
+
+  const registrationComplete = () => {
+    Alert.alert(
+      'Registered',
+      'You are registered. Use your credentials to login the app',
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            navigation.navigate('Login');
+          },
+        },
+      ],
+    );
   };
 
   return (
