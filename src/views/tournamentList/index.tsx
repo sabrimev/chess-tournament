@@ -119,13 +119,16 @@ const TournamentList = (props: Props) => {
           />
         </View>
       )}
-      <FAB
-        color={Colors.primaryColor}
-        icon={<MDIcon size={18} color={Colors.pureWhite} name={'add'} />}
-        size="large"
-        placement="right"
-        style={styles.FAB}
-      />
+      {!isLoading && (
+        <FAB
+          color={Colors.primaryColor}
+          icon={<MDIcon size={18} color={Colors.pureWhite} name={'add'} />}
+          size="large"
+          placement="right"
+          style={styles.FAB}
+          onPress={() => navigation.navigate('AddTournament')}
+        />
+      )}
     </SafeAreaView>
   );
 };

@@ -37,19 +37,17 @@ const TournamentListItem = (props: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.favorite}>
-        {props.item.isFavorite ? (
-          <Pressable>
+        <Pressable onPress={() => console.log('Favorite pressed..')}>
+          {props.item.isFavorite ? (
             <MDIcon size={28} color={Colors.redColor} name={'favorite'} />
-          </Pressable>
-        ) : (
-          <Pressable>
+          ) : (
             <MDIcon
               size={28}
               color={Colors.softBlack}
               name={'favorite-border'}
             />
-          </Pressable>
-        )}
+          )}
+        </Pressable>
       </View>
       <View style={styles.information}>
         <Text numberOfLines={1} style={styles.title}>

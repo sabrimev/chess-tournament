@@ -14,6 +14,7 @@ import Colors from './themes/colors';
 import Login from './views/login';
 import Register from './views/register';
 import TournamentList from './views/tournamentList';
+import AddTournament from './views/addTournament';
 
 const Stack = createNativeStackNavigator();
 
@@ -47,6 +48,11 @@ const App: React.FC = () => {
           name="TournamentList"
           options={{title: 'Tournament List'}}
           component={TournamentList}
+        />
+        <Stack.Screen
+          name="AddTournament"
+          options={{title: 'Add Tournament'}}
+          component={AddTournament}
         />
       </Stack.Navigator>
     </NavigationContainer>
