@@ -12,6 +12,7 @@ const Colors = {
   lightBlue: '#4D97ED',
   redColor: '#D33C3C',
   borderColor: '#b3b3b3',
+  border: 'rgba(179,179,179,0.82)',
   toolbarColor: '#F6BE00',
 };
 

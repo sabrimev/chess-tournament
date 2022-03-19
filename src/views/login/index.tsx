@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {Image, Text, View} from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import {Input, Button as ButtonElement} from 'react-native-elements';
+//@ts-ignore lib issue
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import Colors from '../../themes/colors';
@@ -17,6 +18,14 @@ const Login = (props: Props) => {
   const [email, setEmail] = useState<string>('');
   const [pass, setPass] = useState('');
   const [isLoading, setIsloading] = useState<boolean>(false);
+
+  const onPressLogin = () => {
+    setIsloading(true);
+    setTimeout(() => {
+      setIsloading(false);
+      navigation.navigate('TournamentList');
+    }, 1200);
+  };
 
   return (
     <View style={styles.container}>
@@ -53,6 +62,7 @@ const Login = (props: Props) => {
           type="solid"
           onPress={() => {
             console.log('Logging in..');
+            onPressLogin();
           }}
         />
 

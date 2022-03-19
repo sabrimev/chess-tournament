@@ -1,5 +1,4 @@
 /**
- * Chessable
  * Chess tournaments management
  * @format
  * @flow strict-local
@@ -14,6 +13,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Colors from './themes/colors';
 import Login from './views/login';
 import Register from './views/register';
+import TournamentList from './views/tournamentList';
 
 const Stack = createNativeStackNavigator();
 
@@ -42,6 +42,11 @@ const App: React.FC = () => {
           name="Register"
           options={{title: 'Register'}}
           component={Register}
+        />
+        <Stack.Screen
+          name="TournamentList"
+          options={{title: 'Tournament List'}}
+          component={TournamentList}
         />
       </Stack.Navigator>
     </NavigationContainer>

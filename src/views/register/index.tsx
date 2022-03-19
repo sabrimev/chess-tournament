@@ -3,6 +3,7 @@ import React, {useState} from 'react';
 import {SafeAreaView, View} from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import {Input, Button as ButtonElement} from 'react-native-elements';
+//@ts-ignore lib issue
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import Colors from '../../themes/colors';
