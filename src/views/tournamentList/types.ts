@@ -6,4 +6,5 @@ export interface Tournament {
   isFavorite: boolean;
   country: string;
   city: string;
+  userId: number;
 }
