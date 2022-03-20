@@ -9,6 +9,8 @@ import DocumentPicker from 'react-native-document-picker';
 import RNFS from 'react-native-fs';
 
 import Colors from '../../themes/colors';
+import {TournamentDBType} from '../../utils/types';
+import DBService from '../../utils/database';
 interface Props {
   navigation: any;
 }
@@ -17,8 +19,13 @@ const AddTournament = (props: Props) => {
   const {navigation} = props;
 
   const [name, setName] = useState<string>('');
+  const [nameErrorMessage, setNameErrorMessage] = useState<string>('');
+
   const [country, setCountry] = useState<string>('');
+  const [countryErrorMessage, setCountryErrorMessage] = useState<string>('');
+
   const [city, setCity] = useState<string>('');
+  const [cityErrorMessage, setCityErrorMessage] = useState<string>('');
 
   const [startDate, setStartDate] = useState<Date>(new Date());
   const [startDateOpen, setStartDateOpen] = useState<boolean>(false);
@@ -29,13 +36,58 @@ const AddTournament = (props: Props) => {
 
   const [isLoading, setIsloading] = useState<boolean>(false);
 
-  const addTournament = () => {
+  const validateInputs = async () => {
+    let isNotcomplete = false;
+
+    if (name.length === 0) {
+      setNameErrorMessage('Name cannot be empty');
+      isNotcomplete = true;
+    } else {
+      setNameErrorMessage('');
+    }
+
+    if (country.length === 0) {
+      setCountryErrorMessage('Country cannot be empty');
+      isNotcomplete = true;
+    } else {
+      setCountryErrorMessage('');
+    }
+
+    if (city.length === 0) {
+      setCityErrorMessage('City cannot be empty');
+      isNotcomplete = true;
+    } else {
+      setCityErrorMessage('');
+    }
+
+    if (!isNotcomplete) {
+      await addTournament();
+    }
+  };
+
+  const addTournament = async () => {
     setIsloading(true);
+
+    const tournament: TournamentDBType = {
+      id: Date.now(),
+      name: name,
+      country: country,
+      city: city,
+      start_date: startDate.toDateString(),
+      end_date: endDate.toDateString(),
+      cover_photo_base64: coverPhotoBase64,
+      user_id: 123,
+    };
+
+    const db = await DBService.getDBConnection();
+    await DBService.createTournamentsTable(db);
+
+    await DBService.addTournament(db, tournament);
+
     setTimeout(() => {
       setIsloading(false);
-      console.log('lann: ' + JSON.stringify(isLoading));
-      navigation.goBack();
-    }, 2000);
+      navigation.navigate('TournamentList', {IsRefresh: true});
+    }, 700);
   };
 
   const openImagePicker = async () => {
@@ -80,6 +132,8 @@ const AddTournament = (props: Props) => {
         leftIcon={<MDIcon size={24} color={Colors.softBlack} name={'event'} />}
         onChangeText={value => setName(value)}
         autoCompleteType={'username'}
+        errorStyle={styles.errorMessage}
+        errorMessage={nameErrorMessage}
       />
 
       <Input
@@ -89,6 +143,8 @@ const AddTournament = (props: Props) => {
         leftIcon={<MDIcon size={24} color={Colors.softBlack} name={'flag'} />}
         onChangeText={value => setCountry(value)}
         autoCompleteType={'country'}
+        errorStyle={styles.errorMessage}
+        errorMessage={countryErrorMessage}
       />
 
       <Input
@@ -100,6 +156,8 @@ const AddTournament = (props: Props) => {
         }
         onChangeText={value => setCity(value)}
         autoCompleteType={'city'}
+        errorStyle={styles.errorMessage}
+        errorMessage={cityErrorMessage}
       />
 
       <DatePicker
@@ -160,7 +218,7 @@ const AddTournament = (props: Props) => {
           type="solid"
           onPress={() => {
             console.log('Registring..');
-            addTournament();
+            validateInputs();
           }}
         />
       </View>

@@ -18,16 +18,20 @@ import {Tournament, Vehicles, VehiclesResponse} from './types';
 import styles from './useStyles';
 import DBService from '../../utils/database';
 import {TournamentDBType} from '../../utils/types';
+import {useFocusEffect} from '@react-navigation/native';
 
 interface Props {
   navigation: any;
-  filteredStoreVehicles: Vehicles[];
-  storeVehicles: (vehicles: any) => void;
-  filterVehicles: ({filterText}: any) => void;
+  route: {
+    params: {
+      IsRefresh: boolean;
+    };
+  };
 }
 
 const TournamentList = (props: Props) => {
-  const {navigation} = props;
+  const {navigation, route} = props;
+  const {IsRefresh} = route.params;
 
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
 
@@ -35,33 +39,48 @@ const TournamentList = (props: Props) => {
   const [showSearchLoading, setShowSearchLoading] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      if (IsRefresh) {
+        console.log('Refreshed');
+        setIsLoading(true);
+        getTournaments();
+      }
+    }, [IsRefresh]),
+  );
+
   useEffect(() => {
+    setIsLoading(true);
     const delayedFilter = setTimeout(async () => {
-      const db = await DBService.getDBConnection();
-      await DBService.createTournamentsTable(db);
-
-      const savedTournaments: TournamentDBType[] =
-        await DBService.getAllTournaments(db);
-      let castTournamentList: Tournament[] = [];
-      savedTournaments.forEach(item => {
-        castTournamentList.push({
-          id: item.id,
-          name: item.name,
-          country: item.country,
-          city: item.city,
-          startDate: item.start_date,
-          endDate: item.end_date,
-          userId: item.user_id,
-          isFavorite: false,
-        });
-      });
-      setTournaments(castTournamentList);
-
-      setIsLoading(false);
+      getTournaments();
     }, 1000);
 
     return () => clearTimeout(delayedFilter);
   }, []);
+
+  const getTournaments = async () => {
+    const db = await DBService.getDBConnection();
+    await DBService.createTournamentsTable(db);
+
+    const savedTournaments: TournamentDBType[] =
+      await DBService.getAllTournaments(db);
+    let castTournamentList: Tournament[] = [];
+    savedTournaments.forEach(item => {
+      castTournamentList.push({
+        id: item.id,
+        name: item.name,
+        country: item.country,
+        city: item.city,
+        startDate: item.start_date,
+        endDate: item.end_date,
+        userId: item.user_id,
+        isFavorite: false,
+        coverPhotoBase64: item.cover_photo_base64,
+      });
+    });
+    setTournaments(castTournamentList);
+    setIsLoading(false);
+  };
 
   const vehicleRender: ListRenderItem<Tournament> = ({item}) => (
     <TournamentListItem item={item} navigationObject={navigation} />

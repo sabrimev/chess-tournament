@@ -7,11 +7,11 @@ enablePromise(true);
 
 export const addTournament = async (
   db: SQLiteDatabase,
-  user: TournamentDBType,
+  tournament: TournamentDBType,
 ) => {
   const insertQuery =
-    'INSERT INTO Tournaments(id, name, country, city, start_date, end_date, user_id) values ' +
-    `(${user.id}, '${user.name}', '${user.country}', '${user.city}', '${user.start_date}', '${user.end_date}', ${user.user_id})`;
+    'INSERT INTO Tournaments(id, name, country, city, start_date, end_date, cover_photo_base64, user_id) values ' +
+    `(${tournament.id}, '${tournament.name}', '${tournament.country}', '${tournament.city}', '${tournament.start_date}', '${tournament.end_date}', '${tournament.cover_photo_base64}', ${tournament.user_id})`;
 
   console.log(JSON.stringify(insertQuery));
 
@@ -23,7 +23,7 @@ export const getAllTournaments = async (
 ): Promise<TournamentDBType[]> => {
   return getTournamentsByQuery(
     db,
-    'SELECT id, name, country, city, start_date, end_date, user_id FROM Tournaments',
+    'SELECT id, name, country, city, start_date, end_date, cover_photo_base64, user_id FROM Tournaments',
   );
 };
 

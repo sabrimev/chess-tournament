@@ -63,6 +63,9 @@ const styles = StyleSheet.create({
     height: 120,
     width: '100%',
   },
+  errorMessage: {
+    color: Colors.redColor,
+  },
 });
 
 export default styles;

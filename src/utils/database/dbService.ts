@@ -36,6 +36,7 @@ export const createTournamentsTable = async (db: SQLiteDatabase) => {
         city TEXT NOT NULL,
         start_date TEXT NOT NULL,
         end_date TEXT NOT NULL,
+        cover_photo_base64 TEXT NOT NULL,
         user_id INTEGER NOT NULL
     );`;
 

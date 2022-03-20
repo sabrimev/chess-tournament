@@ -6,5 +6,6 @@ export interface Tournament {
   isFavorite: boolean;
   country: string;
   city: string;
+  coverPhotoBase64: string;
   userId: number;
 }

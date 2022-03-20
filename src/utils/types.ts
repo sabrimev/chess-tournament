@@ -13,6 +13,7 @@ export interface TournamentDBType {
   city: string;
   start_date: string;
   end_date: string;
+  cover_photo_base64: string;
   user_id: number;
 }
 

@@ -23,7 +23,7 @@ const App: React.FC = () => {
     <NavigationContainer>
       <StatusBar
         translucent={true}
-        backgroundColor={Colors.toolbarColor}
+        backgroundColor={Colors.primaryColor}
         animated
         barStyle="light-content"
       />
@@ -48,6 +48,7 @@ const App: React.FC = () => {
           name="TournamentList"
           options={{title: 'Tournament List'}}
           component={TournamentList}
+          initialParams={{IsRefresh: false}}
         />
         <Stack.Screen
           name="AddTournament"
