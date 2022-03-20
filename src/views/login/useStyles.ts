@@ -45,6 +45,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: 20,
   },
+  errorMessage: {
+    color: Colors.redColor,
+  },
 });
 
 export default styles;

@@ -6,7 +6,7 @@ import {Input, Button as ButtonElement} from 'react-native-elements';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import Colors from '../../themes/colors';
-
+import * as Constants from '../../utils/constants';
 interface Props {
   navigation: any;
 }
@@ -15,8 +15,34 @@ const Login = (props: Props) => {
   const {navigation} = props;
 
   const [email, setEmail] = useState<string>('');
-  const [pass, setPass] = useState('');
+  const [emailErrorMessage, setEmailErrorMessage] = useState<string>('');
+
+  const [pass, setPass] = useState<string>('');
+  const [passErrorMessage, setPassErrorMessage] = useState<string>('');
+
   const [isLoading, setIsloading] = useState<boolean>(false);
+
+  const validateInputs = async () => {
+    let isNotcomplete = false;
+
+    if (!Constants.IsValidEmail(email)) {
+      setEmailErrorMessage('Email is not valid');
+      isNotcomplete = true;
+    } else {
+      setEmailErrorMessage('');
+    }
+
+    if (pass.length === 0) {
+      setPassErrorMessage('Password cannot be empty');
+      isNotcomplete = true;
+    } else {
+      setPassErrorMessage('');
+    }
+
+    if (!isNotcomplete) {
+      onPressLogin();
+    }
+  };
 
   const onPressLogin = () => {
     setIsloading(true);
@@ -42,6 +68,8 @@ const Login = (props: Props) => {
         leftIcon={<MDIcon size={24} color={Colors.softBlack} name={'email'} />}
         onChangeText={value => setEmail(value.toLowerCase())}
         autoCompleteType={'username'}
+        errorStyle={styles.errorMessage}
+        errorMessage={emailErrorMessage}
       />
 
       <Input
@@ -52,6 +80,8 @@ const Login = (props: Props) => {
         leftIcon={<MDIcon size={24} color={Colors.softBlack} name={'lock'} />}
         onChangeText={value => setPass(value)}
         autoCompleteType={'password'}
+        errorStyle={styles.errorMessage}
+        errorMessage={passErrorMessage}
       />
 
       <View style={styles.buttonContainer}>
@@ -61,7 +91,7 @@ const Login = (props: Props) => {
           type="solid"
           onPress={() => {
             console.log('Logging in..');
-            onPressLogin();
+            validateInputs();
           }}
         />
 
