@@ -23,7 +23,7 @@ const Login = (props: Props) => {
     setTimeout(() => {
       setIsloading(false);
       navigation.navigate('TournamentList');
-    }, 1200);
+    }, 700);
   };
 
   return (
@@ -40,7 +40,7 @@ const Login = (props: Props) => {
         defaultValue={email}
         label={'Email Address'}
         leftIcon={<MDIcon size={24} color={Colors.softBlack} name={'email'} />}
-        onChangeText={value => setEmail(value)}
+        onChangeText={value => setEmail(value.toLowerCase())}
         autoCompleteType={'username'}
       />
 

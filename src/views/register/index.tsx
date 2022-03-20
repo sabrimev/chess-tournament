@@ -7,8 +7,8 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import * as Constants from '../../utils/constants';
 
 import Colors from '../../themes/colors';
-import * as DBService from '../../utils/dbService';
 import {User} from '../../utils/types';
+import DBService from '../../utils/database';
 
 interface Props {
   navigation: any;
@@ -108,7 +108,7 @@ const Register = (props: Props) => {
   const registrationComplete = () => {
     Alert.alert(
       'Registration Completed',
-      'You are registered. Use your credentials to login the app.',
+      'Use your credentials to login the app.',
       [
         {
           text: 'OK',
