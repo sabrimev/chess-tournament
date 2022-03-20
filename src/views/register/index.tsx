@@ -163,7 +163,7 @@ const Register = (props: Props) => {
         label={'Password'}
         secureTextEntry={true}
         leftIcon={<MDIcon size={24} color={Colors.softBlack} name={'lock'} />}
-        onChangeText={value => setPass(value)}
+        onChangeText={value => setPass(value.trim())}
         autoCompleteType={'password'}
       />
 
@@ -173,7 +173,7 @@ const Register = (props: Props) => {
         label={'Retype Password'}
         secureTextEntry={true}
         leftIcon={<MDIcon size={24} color={Colors.softBlack} name={'lock'} />}
-        onChangeText={value => setPassAgain(value)}
+        onChangeText={value => setPassAgain(value.trim())}
         autoCompleteType={'password'}
         errorStyle={styles.errorMessage}
         errorMessage={passErrorMessage}

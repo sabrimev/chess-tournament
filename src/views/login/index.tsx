@@ -7,6 +7,8 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 import Colors from '../../themes/colors';
 import * as Constants from '../../utils/constants';
+import DBService from '../../utils/database';
+import {User} from '../../utils/types';
 interface Props {
   navigation: any;
 }
@@ -40,15 +42,33 @@ const Login = (props: Props) => {
     }
 
     if (!isNotcomplete) {
-      onPressLogin();
+      await onPressLogin();
     }
   };
 
-  const onPressLogin = () => {
+  const onPressLogin = async () => {
     setIsloading(true);
+
+    const db = await DBService.getDBConnection();
+    await DBService.createUsersTable(db);
+
+    const users: User[] = await DBService.getUserByEmail(db, email);
+    const user: User = users[0];
+    if (user && user.password === pass.trim()) {
+      navigateToTournaments(user);
+    } else {
+      setIsloading(false);
+      Constants.ShowSnackbarError('Invalid credentials');
+    }
+  };
+
+  const navigateToTournaments = (user: User) => {
+    // Better ux
     setTimeout(() => {
       setIsloading(false);
-      navigation.navigate('TournamentList');
+      navigation.navigate('TournamentList', {
+        userInfo: user,
+      });
     }, 700);
   };
 

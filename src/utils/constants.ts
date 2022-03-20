@@ -31,7 +31,7 @@ export const ShowSnackbarInfo = (text: string) => {
 export const ShowSnackbarError = (text: string) => {
   Snackbar.show({
     text: text,
-    duration: Snackbar.LENGTH_INDEFINITE,
+    duration: Snackbar.LENGTH_LONG,
     backgroundColor: Colors.errorColor,
     numberOfLines: 4,
     action: {
