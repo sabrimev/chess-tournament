@@ -24,9 +24,11 @@ const styles = StyleSheet.create({
     marginTop: 3,
     marginBottom: 3,
   },
-  favorite: {
-    flex: 0.1,
+  favoriteAndCoverPhotoContainer: {
+    flex: 0.15,
+    justifyContent: 'space-between',
     alignSelf: 'center',
+    alignItems: 'center',
     marginLeft: 7,
     marginRight: 7,
   },
@@ -63,32 +65,24 @@ const styles = StyleSheet.create({
   },
   locationContainer: {
     flexDirection: 'row',
+    alignItems: 'center',
   },
-
-
-  imageThumbnail: {
-    height: 100,
-    marginTop: 5,
-    marginLeft: 5,
-    marginRight: 5,
+  coverPhotoContainer: {
+    height: 40,
+    width: 40,
+    borderRadius: 5,
+    borderWidth: 0.5,
+    marginBottom: 7,
     alignItems: 'center',
     justifyContent: 'center',
+    borderColor: Colors.borderColor,
   },
-  detailContainer: {
-    alignItems: 'center',
-    margin: 3,
-  },
-  brand: {
-    fontSize: 13,
-    fontWeight: 'bold',
-    color: Colors.primaryTextColor,
-  },
-  model: {
-    fontSize: 12,
-    color: Colors.primaryTextColor,
-  },
-  pressable: {
-    flex: 1,
+  coverPhoto: {
+    height: 40,
+    width: 40,
+    borderRadius: 5,
+    borderWidth: 0.5,
+    borderColor: Colors.borderColor,
   },
 });
 

@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, Platform, Pressable, Text, View} from 'react-native';
 import {Tournament} from '../../views/tournamentList/types';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
+import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import OptionsMenu from 'react-native-options-menu';
 
 import styles from './useStyles';
@@ -36,13 +37,26 @@ const TournamentListItem = (props: Props) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.favorite}>
+      <View style={styles.favoriteAndCoverPhotoContainer}>
+        <View style={styles.coverPhotoContainer}>
+          {props.item.coverPhotoBase64.length > 0 ? (
+            <Image
+              style={styles.coverPhoto}
+              source={{
+                uri: `data:image/jpeg;base64,${props.item.coverPhotoBase64}`,
+              }}
+            />
+          ) : (
+            <MCIcon size={28} color={Colors.softBlack} name={'chess-pawn'} />
+          )}
+        </View>
+
         <Pressable onPress={() => console.log('Favorite pressed..')}>
           {props.item.isFavorite ? (
-            <MDIcon size={28} color={Colors.redColor} name={'favorite'} />
+            <MDIcon size={24} color={Colors.redColor} name={'favorite'} />
           ) : (
             <MDIcon
-              size={28}
+              size={24}
               color={Colors.softBlack}
               name={'favorite-border'}
             />
