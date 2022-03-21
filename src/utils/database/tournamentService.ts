@@ -18,6 +18,14 @@ export const addTournament = async (
   return db.executeSql(insertQuery);
 };
 
+export const deleteTournament = async (
+  db: SQLiteDatabase,
+  tournamentId: number,
+) => {
+  const deleteQuery = `DELETE from Tournaments where id = ${tournamentId}`;
+  await db.executeSql(deleteQuery);
+};
+
 export const getAllTournaments = async (
   db: SQLiteDatabase,
 ): Promise<TournamentDBType[]> => {

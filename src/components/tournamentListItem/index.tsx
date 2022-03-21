@@ -7,22 +7,24 @@ import OptionsMenu from 'react-native-options-menu';
 
 import styles from './useStyles';
 import Colors from '../../themes/colors';
+import DBService from '../../utils/database';
 
 interface Props {
   item: Tournament;
   navigationObject: any;
+  refreshTournamentList: () => void;
 }
 
 const TournamentListItem = (props: Props) => {
-  const navigateDetail = () => {
-    /*props.navigationObject.navigate('Detail', {
-      vehicle: props.item,
-    });*/
+  const onDeleteTournament = async () => {
+    const db = await DBService.getDBConnection();
+    await DBService.deleteTournament(db, props.item.id);
+    props.refreshTournamentList();
   };
 
   const getActions = () => {
     let actions = {
-      actionList: [() => {}, () => {}, () => {}],
+      actionList: [() => {}, () => onDeleteTournament(), () => {}],
       optionList: ['Edit', 'Delete', 'Cancel'],
     };
 

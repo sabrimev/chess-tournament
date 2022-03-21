@@ -83,7 +83,14 @@ const TournamentList = (props: Props) => {
   };
 
   const vehicleRender: ListRenderItem<Tournament> = ({item}) => (
-    <TournamentListItem item={item} navigationObject={navigation} />
+    <TournamentListItem
+      item={item}
+      navigationObject={navigation}
+      refreshTournamentList={() => {
+        setIsLoading(true);
+        getTournaments();
+      }}
+    />
   );
 
   return (
