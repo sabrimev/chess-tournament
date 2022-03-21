@@ -3,7 +3,7 @@ export interface Tournament {
   name: string;
   startDate: string;
   endDate: string;
-  isFavorite: boolean;
+  isFavorite?: boolean;
   country: string;
   city: string;
   coverPhotoBase64: string;

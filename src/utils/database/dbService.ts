@@ -3,9 +3,6 @@ import {
   openDatabase,
   SQLiteDatabase,
 } from 'react-native-sqlite-storage';
-import {User} from '../types';
-import * as Constants from '../constants';
-import Colors from '../../themes/colors';
 
 // promise-based APIs in the library
 enablePromise(true);

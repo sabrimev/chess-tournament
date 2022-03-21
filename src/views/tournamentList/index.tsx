@@ -8,17 +8,16 @@ import {
   View,
 } from 'react-native';
 import {FAB, SearchBar} from 'react-native-elements';
-import {connect} from 'react-redux';
 import TournamentListItem from '../../components/tournamentListItem';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 
 import Colors from '../../themes/colors';
-import * as Constants from '../../utils/constants';
-import {Tournament, Vehicles, VehiclesResponse} from './types';
+import {Tournament} from './types';
 import styles from './useStyles';
 import DBService from '../../utils/database';
-import {TournamentDBType} from '../../utils/types';
+import {TournamentDBType, User} from '../../utils/types';
 import {useFocusEffect} from '@react-navigation/native';
+import * as StorageHelper from '../../utils/storageHelper';
 
 interface Props {
   navigation: any;
@@ -28,12 +27,17 @@ interface Props {
     };
   };
 }
+let userInfo: User | undefined;
 
 const TournamentList = (props: Props) => {
   const {navigation, route} = props;
   const {IsRefresh} = route.params;
 
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
+  const [filteredTournaments, setFilteredTournaments] = useState<Tournament[]>(
+    [],
+  );
+  //const [userInfo, setUserInfo] = useState<User | undefined>();
 
   const [searchText, setSearchText] = useState<string>('');
   const [showSearchLoading, setShowSearchLoading] = useState<boolean>(false);
@@ -52,18 +56,59 @@ const TournamentList = (props: Props) => {
   useEffect(() => {
     setIsLoading(true);
     const delayedFilter = setTimeout(async () => {
-      getTournaments();
+      async function getUserInfo() {
+        userInfo = await StorageHelper.getStoredUserData();
+        getTournaments();
+      }
+      getUserInfo();
     }, 1000);
 
     return () => clearTimeout(delayedFilter);
   }, []);
 
+  useEffect(() => {
+    if (searchText.length > 0) {
+      setShowSearchLoading(true);
+      const delayedFilter = setTimeout(() => {
+        let filteredTournaments: Tournament[] = tournaments;
+        console.log(JSON.stringify(filteredTournaments));
+
+        console.log('HGALLA GLLAAA');
+        filteredTournaments = filteredTournaments.filter(tour => {
+          if (
+            tour.name
+              ?.toString()
+              .toLowerCase()
+              .includes(searchText.toLowerCase()) ||
+            tour.country
+              ?.toString()
+              .toLowerCase()
+              .includes(searchText.toLowerCase()) ||
+            tour.city
+              ?.toString()
+              .toLowerCase()
+              .includes(searchText.toLowerCase())
+          ) {
+            return true;
+          }
+        });
+
+        setFilteredTournaments(filteredTournaments);
+        setShowSearchLoading(false);
+      }, 250);
+      return () => clearTimeout(delayedFilter);
+    } else {
+      setFilteredTournaments(tournaments);
+    }
+  }, [searchText, tournaments]);
+
   const getTournaments = async () => {
     const db = await DBService.getDBConnection();
     await DBService.createTournamentsTable(db);
+    await DBService.createFavoritesTable(db);
 
     const savedTournaments: TournamentDBType[] =
-      await DBService.getAllTournaments(db);
+      await DBService.getAllTournaments(db, userInfo?.id);
     let castTournamentList: Tournament[] = [];
     savedTournaments.forEach(item => {
       castTournamentList.push({
@@ -74,10 +119,13 @@ const TournamentList = (props: Props) => {
         startDate: item.start_date,
         endDate: item.end_date,
         userId: item.user_id,
-        isFavorite: false,
+        isFavorite: item.is_favorite,
         coverPhotoBase64: item.cover_photo_base64,
       });
     });
+
+    console.log(JSON.stringify(castTournamentList));
+
     setTournaments(castTournamentList);
     setIsLoading(false);
   };
@@ -90,6 +138,7 @@ const TournamentList = (props: Props) => {
         setIsLoading(true);
         getTournaments();
       }}
+      userInfo={userInfo}
     />
   );
 
@@ -117,11 +166,11 @@ const TournamentList = (props: Props) => {
         />
       ) : (
         <View style={styles.flatListContainer}>
-          {tournaments.length === 0 && (
+          {filteredTournaments.length === 0 && (
             <Text style={styles.notFound}>No upcoming tournament found</Text>
           )}
           <FlatList
-            data={tournaments}
+            data={filteredTournaments}
             initialNumToRender={15}
             maxToRenderPerBatch={15}
             removeClippedSubviews={true}

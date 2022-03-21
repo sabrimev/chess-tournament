@@ -28,10 +28,20 @@ export const deleteTournament = async (
 
 export const getAllTournaments = async (
   db: SQLiteDatabase,
+  userId: number | undefined,
 ): Promise<TournamentDBType[]> => {
   return getTournamentsByQuery(
     db,
-    'SELECT id, name, country, city, start_date, end_date, cover_photo_base64, user_id FROM Tournaments',
+    `SELECT Tournaments.id, Tournaments.name, Tournaments.country, 
+      Tournaments.city, Tournaments.start_date, Tournaments.end_date, 
+      Tournaments.cover_photo_base64, Tournaments.user_id,
+      CASE 
+        WHEN Favorites.user_id > 0 
+            THEN true 
+        ELSE false 
+      END is_favorite 
+    FROM Tournaments LEFT JOIN Favorites 
+    ON Favorites.tournament_id = Tournaments.id AND Favorites.user_id = ${userId}`,
   );
 };
 

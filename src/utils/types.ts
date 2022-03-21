@@ -15,10 +15,10 @@ export interface TournamentDBType {
   end_date: string;
   cover_photo_base64: string;
   user_id: number | undefined;
+  is_favorite?: boolean;
 }
 
 export interface Favorite {
-  id: number;
-  user_id: number;
-  tournament_id: number;
+  user_id?: number;
+  tournament_id?: number;
 }
