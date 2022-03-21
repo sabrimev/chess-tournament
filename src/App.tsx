@@ -54,6 +54,7 @@ const App: React.FC = () => {
           name="AddTournament"
           options={{title: 'Add Tournament'}}
           component={AddTournament}
+          initialParams={{isEdit: false, tournament: undefined}}
         />
       </Stack.Navigator>
     </NavigationContainer>

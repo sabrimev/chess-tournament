@@ -22,9 +22,20 @@ const TournamentListItem = (props: Props) => {
     props.refreshTournamentList();
   };
 
+  const onEditTournament = () => {
+    props.navigationObject.navigate('AddTournament', {
+      isEdit: true,
+      tournament: props.item,
+    });
+  };
+
   const getActions = () => {
     let actions = {
-      actionList: [() => {}, () => onDeleteTournament(), () => {}],
+      actionList: [
+        () => onEditTournament(),
+        () => onDeleteTournament(),
+        () => {},
+      ],
       optionList: ['Edit', 'Delete', 'Cancel'],
     };
 

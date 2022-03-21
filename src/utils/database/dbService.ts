@@ -30,7 +30,7 @@ export const createUsersTable = async (db: SQLiteDatabase) => {
 export const createTournamentsTable = async (db: SQLiteDatabase) => {
   // create table if not exists
   const query = `CREATE TABLE IF NOT EXISTS Tournaments(
-        id INTEGER NOT NULL,
+        id INTEGER NOT NULL UNIQUE,
         name TEXT NOT NULL,
         country TEXT NOT NULL,
         city TEXT NOT NULL,

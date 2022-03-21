@@ -1,5 +1,5 @@
 import styles from './useStyles';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, Platform, Pressable, SafeAreaView, View} from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import {Input, Button as ButtonElement, Text} from 'react-native-elements';
@@ -11,12 +11,20 @@ import RNFS from 'react-native-fs';
 import Colors from '../../themes/colors';
 import {TournamentDBType} from '../../utils/types';
 import DBService from '../../utils/database';
+import {Tournament} from '../tournamentList/types';
 interface Props {
   navigation: any;
+  route: {
+    params: {
+      isEdit: boolean;
+      tournament: Tournament;
+    };
+  };
 }
 
 const AddTournament = (props: Props) => {
-  const {navigation} = props;
+  const {navigation, route} = props;
+  const {isEdit, tournament} = route.params;
 
   const [name, setName] = useState<string>('');
   const [nameErrorMessage, setNameErrorMessage] = useState<string>('');
@@ -35,6 +43,17 @@ const AddTournament = (props: Props) => {
   const [coverPhotoBase64, setCoverPhotoBase64] = useState<string>('');
 
   const [isLoading, setIsloading] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isEdit) {
+      setName(tournament.name);
+      setCountry(tournament.country);
+      setCity(tournament.city);
+      setStartDate(new Date(tournament.startDate));
+      setEndDate(new Date(tournament.endDate));
+      setCoverPhotoBase64(tournament.coverPhotoBase64);
+    }
+  }, [isEdit, tournament]);
 
   const validateInputs = async () => {
     let isNotcomplete = false;
@@ -68,8 +87,8 @@ const AddTournament = (props: Props) => {
   const addTournament = async () => {
     setIsloading(true);
 
-    const tournament: TournamentDBType = {
-      id: Date.now(),
+    const newTournament: TournamentDBType = {
+      id: isEdit ? tournament.id : Date.now(),
       name: name,
       country: country,
       city: city,
@@ -82,7 +101,7 @@ const AddTournament = (props: Props) => {
     const db = await DBService.getDBConnection();
     await DBService.createTournamentsTable(db);
 
-    await DBService.addTournament(db, tournament);
+    await DBService.addTournament(db, newTournament);
 
     setTimeout(() => {
       setIsloading(false);
