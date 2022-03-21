@@ -7,5 +7,5 @@ export interface Tournament {
   country: string;
   city: string;
   coverPhotoBase64: string;
-  userId: number;
+  userId: number | undefined;
 }

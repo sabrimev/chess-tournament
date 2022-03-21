@@ -7,6 +7,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import DatePicker from 'react-native-date-picker';
 import DocumentPicker from 'react-native-document-picker';
 import RNFS from 'react-native-fs';
+import * as StorageHelper from '../../utils/storageHelper';
 
 import Colors from '../../themes/colors';
 import {TournamentDBType} from '../../utils/types';
@@ -87,6 +88,8 @@ const AddTournament = (props: Props) => {
   const addTournament = async () => {
     setIsloading(true);
 
+    const user = await StorageHelper.getStoredUserData();
+
     const newTournament: TournamentDBType = {
       id: isEdit ? tournament.id : Date.now(),
       name: name,
@@ -95,7 +98,7 @@ const AddTournament = (props: Props) => {
       start_date: startDate.toDateString(),
       end_date: endDate.toDateString(),
       cover_photo_base64: coverPhotoBase64,
-      user_id: 123,
+      user_id: user?.id,
     };
 
     const db = await DBService.getDBConnection();
@@ -103,6 +106,7 @@ const AddTournament = (props: Props) => {
 
     await DBService.addTournament(db, newTournament);
 
+    // Better ux
     setTimeout(() => {
       setIsloading(false);
       navigation.navigate('TournamentList', {IsRefresh: true});

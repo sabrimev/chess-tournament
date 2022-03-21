@@ -4,7 +4,7 @@ import {Image, Text, View} from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import {Input, Button as ButtonElement} from 'react-native-elements';
 import Spinner from 'react-native-loading-spinner-overlay';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as StorageHelper from '../../utils/storageHelper';
 
 import Colors from '../../themes/colors';
 import * as Constants from '../../utils/constants';
@@ -64,10 +64,7 @@ const Login = (props: Props) => {
   };
 
   const navigateToTournaments = async (user: User) => {
-    await AsyncStorage.setItem(
-      Constants.STORAGE_KEYS.USER_INFO,
-      JSON.stringify(user),
-    );
+    await StorageHelper.storeUserData(user);
 
     // Better ux
     setTimeout(() => {

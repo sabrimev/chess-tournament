@@ -14,7 +14,7 @@ export interface TournamentDBType {
   start_date: string;
   end_date: string;
   cover_photo_base64: string;
-  user_id: number;
+  user_id: number | undefined;
 }
 
 export interface Favorite {
