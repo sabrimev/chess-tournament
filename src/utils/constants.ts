@@ -2,6 +2,10 @@ import {Alert} from 'react-native';
 import Snackbar from 'react-native-snackbar';
 import Colors from '../themes/colors';
 
+export const STORAGE_KEYS = {
+  USER_INFO: 'UserInfo',
+};
+
 export const ShowErrorDialog = (message: string) => {
   Alert.alert('Error', message, [
     {text: 'OK', onPress: () => console.log('OK Pressed')},
