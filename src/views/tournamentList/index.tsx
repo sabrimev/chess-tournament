@@ -71,9 +71,6 @@ const TournamentList = (props: Props) => {
       setShowSearchLoading(true);
       const delayedFilter = setTimeout(() => {
         let filteredTournaments: Tournament[] = tournaments;
-        console.log(JSON.stringify(filteredTournaments));
-
-        console.log('HGALLA GLLAAA');
         filteredTournaments = filteredTournaments.filter(tour => {
           if (
             tour.name
@@ -99,6 +96,7 @@ const TournamentList = (props: Props) => {
       return () => clearTimeout(delayedFilter);
     } else {
       setFilteredTournaments(tournaments);
+      setShowSearchLoading(false);
     }
   }, [searchText, tournaments]);
 
