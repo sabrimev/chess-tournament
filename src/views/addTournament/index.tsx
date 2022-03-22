@@ -254,7 +254,7 @@ const AddTournament = (props: Props) => {
       <View style={styles.buttonContainer}>
         <ButtonElement
           buttonStyle={styles.loginButton}
-          title="Add Tournament"
+          title={(isEdit ? 'Update' : 'Add') + ' Tournament'}
           type="solid"
           onPress={() => {
             validateInputs();
