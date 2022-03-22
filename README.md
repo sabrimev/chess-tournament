@@ -31,6 +31,7 @@ Typescript and eslint rules are applied to the project.
 ## Potential Improvements
 1. Use of Redux to keep user information instead of async storage.
 2. Create selectable component and different tables in SQLite for Country and City.
+3. Check screen boundries for different type of devices.
 
 ## Screenshots
 
