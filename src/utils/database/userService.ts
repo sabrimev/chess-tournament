@@ -10,8 +10,6 @@ export const addUser = async (db: SQLiteDatabase, user: User) => {
     'INSERT INTO Users(id, name, surname, email, password) values ' +
     `(${user.id}, '${user.name}', '${user.surname}', '${user.email}', '${user.password}')`;
 
-  console.log(JSON.stringify(insertQuery));
-
   return db.executeSql(insertQuery);
 };
 

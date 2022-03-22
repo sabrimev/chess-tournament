@@ -13,8 +13,6 @@ export const addTournament = async (
     'INSERT OR REPLACE INTO Tournaments(id, name, country, city, start_date, end_date, cover_photo_base64, user_id) values ' +
     `(${tournament.id}, '${tournament.name}', '${tournament.country}', '${tournament.city}', '${tournament.start_date}', '${tournament.end_date}', '${tournament.cover_photo_base64}', ${tournament.user_id})`;
 
-  console.log(JSON.stringify(insertQuery));
-
   return db.executeSql(insertQuery);
 };
 

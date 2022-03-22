@@ -190,9 +190,14 @@ const AddTournament = (props: Props) => {
         open={startDateOpen}
         date={startDate}
         onConfirm={(date: Date) => {
+          if (endDate.getTime() < date.getTime()) {
+            Constants.ShowSnackbarError(
+              'Start date cannot be later on end date',
+            );
+          } else {
+            setStartDate(date);
+          }
           setStartDateOpen(false);
-          setStartDate(date);
-          console.log(date);
         }}
         onCancel={() => {
           setStartDateOpen(false);
@@ -234,6 +239,8 @@ const AddTournament = (props: Props) => {
           const now = new Date().getTime();
           if (date.getTime() < now) {
             Constants.ShowSnackbarError('End date cannot be in the past');
+          } else if (date.getTime() < startDate.getTime()) {
+            Constants.ShowSnackbarError('End date cannot be before start date');
           } else {
             setEndDate(date);
           }
@@ -250,7 +257,6 @@ const AddTournament = (props: Props) => {
           title="Add Tournament"
           type="solid"
           onPress={() => {
-            console.log('Registring..');
             validateInputs();
           }}
         />

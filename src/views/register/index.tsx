@@ -94,10 +94,6 @@ const Register = (props: Props) => {
 
     await DBService.addUser(db, user);
 
-    // TODO Log purpose - Remove later
-    const storedUsers = await DBService.getAllUsers(db);
-    console.log(JSON.stringify(storedUsers));
-
     // Better user experience as local db is quite fast
     setTimeout(() => {
       setIsloading(false);
@@ -185,7 +181,6 @@ const Register = (props: Props) => {
           title="Register"
           type="solid"
           onPress={() => {
-            console.log('Registring..');
             validateInputs();
           }}
         />

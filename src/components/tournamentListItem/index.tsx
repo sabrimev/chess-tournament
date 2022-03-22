@@ -27,24 +27,6 @@ const TournamentListItem = (props: Props) => {
     props.item.isFavorite,
   );
 
-  useEffect(() => {
-    async function getUserInfo() {
-      const newFavorite: Favorite = {
-        tournament_id: props.item.id,
-        user_id: props.userInfo?.id,
-      };
-      const db = await DBService.getDBConnection();
-
-      const existingFavorites: Favorite[] = await DBService.getFavorites(
-        db,
-        newFavorite.tournament_id,
-        newFavorite.user_id,
-      );
-      console.log('Favorites: ' + JSON.stringify(existingFavorites));
-    }
-    getUserInfo();
-  }, [props.item.id, props.userInfo?.id]);
-
   const onDeleteTournament = async () => {
     const db = await DBService.getDBConnection();
     await DBService.deleteTournament(db, props.item.id);
@@ -103,8 +85,6 @@ const TournamentListItem = (props: Props) => {
   };
 
   const addToFavorites = async () => {
-    console.log('Favorite pressed..');
-
     const newFavorite: Favorite = {
       tournament_id: props.item.id,
       user_id: props.userInfo?.id,

@@ -113,7 +113,6 @@ const Login = (props: Props) => {
           title="Sign in"
           type="solid"
           onPress={() => {
-            console.log('Logging in..');
             validateInputs();
           }}
         />

@@ -10,8 +10,6 @@ export const addFavorite = async (db: SQLiteDatabase, user: Favorite) => {
     'INSERT INTO Favorites(tournament_id, user_id) values ' +
     `(${user.tournament_id}, ${user.user_id})`;
 
-  console.log(JSON.stringify(insertQuery));
-
   return db.executeSql(insertQuery);
 };
 
@@ -21,8 +19,6 @@ export const deleteFavorite = async (
   userId?: number,
 ) => {
   const deleteQuery = `DELETE from Favorites WHERE tournament_id = ${tournamentId} AND user_id =  ${userId}`;
-
-  console.log(JSON.stringify(deleteQuery));
 
   await db.executeSql(deleteQuery);
 };

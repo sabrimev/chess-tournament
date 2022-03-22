@@ -46,7 +46,6 @@ const TournamentList = (props: Props) => {
   useFocusEffect(
     React.useCallback(() => {
       if (IsRefresh) {
-        console.log('Refreshed');
         setIsLoading(true);
         getTournaments();
       }
@@ -121,8 +120,6 @@ const TournamentList = (props: Props) => {
         coverPhotoBase64: item.cover_photo_base64,
       });
     });
-
-    console.log(JSON.stringify(castTournamentList));
 
     setTournaments(castTournamentList);
     setIsLoading(false);
