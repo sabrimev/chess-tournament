@@ -7,7 +7,7 @@
 * Search tournaments by name, country or city.
 * Upload cover image for a tournament.
 
-## How to run
+## How to run?
 
 Navigate to project directory and continue with the following commands.
 
@@ -32,6 +32,8 @@ Typescript and eslint rules are applied to the project.
 1. Use of Redux to keep user information instead of async storage.
 2. Create selectable component and different tables in SQLite for Country and City.
 3. Check screen boundries for different type of devices.
+4. Force user to create a strong password.
+5. Encrypt password and save it.
 
 ## Screenshots
 
