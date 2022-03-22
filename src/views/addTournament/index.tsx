@@ -1,6 +1,6 @@
 import styles from './useStyles';
 import React, {useEffect, useState} from 'react';
-import {Image, Platform, Pressable, SafeAreaView, View} from 'react-native';
+import {Image, Platform, Pressable, ScrollView, View} from 'react-native';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import {Input, Button as ButtonElement, Text} from 'react-native-elements';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -130,7 +130,7 @@ const AddTournament = (props: Props) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <ScrollView style={styles.container}>
       <Spinner visible={isLoading} />
 
       <Pressable
@@ -198,27 +198,31 @@ const AddTournament = (props: Props) => {
         }}
       />
 
-      <ButtonElement
-        buttonStyle={styles.registerButton}
-        title="Select Start Date"
-        type="clear"
-        onPress={() => {
-          setStartDateOpen(true);
-        }}
-      />
+      <View style={styles.dateSelectionContainer}>
+        <ButtonElement
+          buttonStyle={styles.dateSelectionButton}
+          title="Select Start Date"
+          type="clear"
+          onPress={() => {
+            setStartDateOpen(true);
+          }}
+        />
 
-      <Text style={styles.tournamentDate}>{startDate.toDateString()}</Text>
+        <Text style={styles.tournamentDate}>{startDate.toDateString()}</Text>
+      </View>
 
-      <ButtonElement
-        buttonStyle={styles.registerButton}
-        title="Select End Date"
-        type="clear"
-        onPress={() => {
-          setEndDateOpen(true);
-        }}
-      />
+      <View style={styles.dateSelectionContainer}>
+        <ButtonElement
+          buttonStyle={styles.dateSelectionButton}
+          title="Select End Date"
+          type="clear"
+          onPress={() => {
+            setEndDateOpen(true);
+          }}
+        />
 
-      <Text style={styles.tournamentDate}>{endDate.toDateString()}</Text>
+        <Text style={styles.tournamentDate}>{endDate.toDateString()}</Text>
+      </View>
 
       <DatePicker
         modal
@@ -245,7 +249,7 @@ const AddTournament = (props: Props) => {
           }}
         />
       </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 };
 

@@ -32,16 +32,16 @@ export const getAllTournaments = async (
 ): Promise<TournamentDBType[]> => {
   return getTournamentsByQuery(
     db,
-    `SELECT Tournaments.id, Tournaments.name, Tournaments.country, 
-      Tournaments.city, Tournaments.start_date, Tournaments.end_date, 
-      Tournaments.cover_photo_base64, Tournaments.user_id,
+    `SELECT t.id, t.name, t.country, 
+      t.city, t.start_date, t.end_date, 
+      t.cover_photo_base64, t.user_id,
       CASE 
-        WHEN Favorites.user_id > 0 
-            THEN true 
-        ELSE false 
+        WHEN f.user_id > 0 
+            THEN 1 
+        ELSE 0 
       END is_favorite 
-    FROM Tournaments LEFT JOIN Favorites 
-    ON Favorites.tournament_id = Tournaments.id AND Favorites.user_id = ${userId}`,
+    FROM Tournaments t LEFT JOIN Favorites f
+    ON f.tournament_id = t.id AND f.user_id = ${userId}`,
   );
 };
 

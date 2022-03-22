@@ -22,6 +22,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
   },
+  dateSelectionButton: {
+    width: 180,
+    height: 48,
+  },
+  dateSelectionContainer: {
+    flexDirection: 'row',
+  },
   appTitle: {
     fontSize: 30,
     marginBottom: 50,
@@ -47,6 +54,7 @@ const styles = StyleSheet.create({
   },
   tournamentDate: {
     alignSelf: 'center',
+    marginLeft: 7,
   },
   coverPhotoContainer: {
     height: 120,
