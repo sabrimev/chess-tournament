@@ -17,6 +17,10 @@ interface Props {
   userInfo: User | undefined;
   refreshTournamentList: () => void;
 }
+interface StatusOfTournament {
+  color: string;
+  text: string;
+}
 
 const TournamentListItem = (props: Props) => {
   const [isFavorite, setIsFavorite] = useState<boolean | undefined>(
@@ -123,6 +127,32 @@ const TournamentListItem = (props: Props) => {
     await DBService.addFavorite(db, newFavorite);
   };
 
+  const getStatusOfTournament = (): StatusOfTournament => {
+    // Remove time
+    const dateStringOnly = new Date().toDateString();
+    const now = new Date(dateStringOnly).getTime();
+
+    const startDate = new Date(props.item.startDate).getTime();
+    const endDate = new Date(props.item.endDate).getTime();
+
+    if (startDate <= now && now <= endDate) {
+      return {
+        color: Colors.greenPrimary,
+        text: 'In progress',
+      };
+    } else if (now < endDate) {
+      return {
+        color: Colors.lightBlue,
+        text: 'Upcoming',
+      };
+    } else {
+      return {
+        color: Colors.redColor,
+        text: 'Ended',
+      };
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.favoriteAndCoverPhotoContainer}>
@@ -163,11 +193,18 @@ const TournamentListItem = (props: Props) => {
         </View>
         <View style={styles.locationContainer}>
           <MDIcon size={18} color={Colors.softBlack} name={'location-on'} />
-          <Text
-            numberOfLines={1}
-            ellipsizeMode={'tail'}
-            style={styles.location}>
+          <Text numberOfLines={1} style={styles.location}>
             {props.item.country + ' / ' + props.item.city}
+          </Text>
+        </View>
+        <View style={styles.statusContainer}>
+          <MDIcon
+            size={14}
+            color={getStatusOfTournament().color}
+            name={'circle'}
+          />
+          <Text numberOfLines={1} style={styles.location}>
+            {getStatusOfTournament().text}
           </Text>
         </View>
       </View>

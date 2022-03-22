@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     marginRight: 7,
     flexDirection: 'row',
     borderRadius: 5,
-    height: 90,
+    height: 100,
     borderColor: Colors.border,
     backgroundColor: Colors.pureWhite,
     shadowColor: '#000',
@@ -64,6 +64,11 @@ const styles = StyleSheet.create({
     color: Colors.primaryTextColor,
   },
   locationContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  statusContainer: {
+    marginTop: 3,
     flexDirection: 'row',
     alignItems: 'center',
   },

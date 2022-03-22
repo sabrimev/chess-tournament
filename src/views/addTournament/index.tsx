@@ -8,6 +8,7 @@ import DatePicker from 'react-native-date-picker';
 import DocumentPicker from 'react-native-document-picker';
 import RNFS from 'react-native-fs';
 import * as StorageHelper from '../../utils/storageHelper';
+import * as Constants from '../../utils/constants';
 
 import Colors from '../../themes/colors';
 import {TournamentDBType} from '../../utils/types';
@@ -230,8 +231,13 @@ const AddTournament = (props: Props) => {
         open={endDateOpen}
         date={endDate}
         onConfirm={(date: Date) => {
+          const now = new Date().getTime();
+          if (date.getTime() < now) {
+            Constants.ShowSnackbarError('End date cannot be in the past');
+          } else {
+            setEndDate(date);
+          }
           setEndDateOpen(false);
-          setEndDate(date);
         }}
         onCancel={() => {
           setEndDateOpen(false);
